@@ -6,6 +6,7 @@ import br.com.alura.leilao.model.Pagamento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Clock;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
@@ -13,14 +14,16 @@ import java.time.LocalDate;
 public class GeradorDePagamento {
 
     private PagamentoDao pagamentos;
+    private Clock clock;
 
     @Autowired
-    public GeradorDePagamento(PagamentoDao pagamentos) {
+    public GeradorDePagamento(PagamentoDao pagamentos, Clock clock) {
         this.pagamentos = pagamentos;
+        this.clock = clock;
     }
 
     public void gerarPagamento(Lance lanceVencedor) {
-        LocalDate vencimento = LocalDate.now().plusDays(1);
+        LocalDate vencimento = LocalDate.now(clock).plusDays(1);
         Pagamento pagamento = new Pagamento(lanceVencedor, proximoDiaUtil(vencimento));
         this.pagamentos.salvar(pagamento);
     }
