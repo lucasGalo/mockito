@@ -36,7 +36,7 @@ class GeradorDePagamentoTest {
         Lance vencedor = leilao.getLanceVencedor();
         gerador.gerarPagamento(vencedor);
 
-        Mockito.verify(pagamentoDao).salvar(captor.capture()); // captura o parametro passado
+        Mockito.verify(pagamentoDao).salvar(captor.capture()); // captura o objeto passado para o mockito
 
         Pagamento pagamento = captor.getValue();
 
