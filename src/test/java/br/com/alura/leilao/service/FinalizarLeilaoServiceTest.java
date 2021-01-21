@@ -31,10 +31,27 @@ class FinalizarLeilaoServiceTest {
     }
 
     @Test
+    void deveriaEnviarEmailParaVencedorDoLeilao() {
+
+        List<Leilao> leiloes = leiloes();
+
+        //Quando for chamado o método buscarLeiloesExpirados retornar leiloes
+        Mockito.when(leilaoDao.buscarLeiloesExpirados()).thenReturn(leiloes);
+
+        service.finalizarLeiloesExpirados();
+
+        Leilao leilao = leiloes.get(0);
+        Lance lanceVencedor = leilao.getLanceVencedor();
+
+        Mockito.verify(enviadorDeEmails).enviarEmailVencedorLeilao(lanceVencedor);
+    }
+
+    @Test
     void test() {
         // LeilaoDao dao = Mockito.mock(LeilaoDao.class);
         //service = new FinalizarLeilaoService(dao);
         List<Leilao> leiloes = leiloes();
+        //Quando for chamado o método buscarLeiloesExpirados retornar leiloes
         Mockito.when(leilaoDao.buscarLeiloesExpirados()).thenReturn(leiloes);
         service.finalizarLeiloesExpirados();
         Leilao leilao = leiloes.get(0);
